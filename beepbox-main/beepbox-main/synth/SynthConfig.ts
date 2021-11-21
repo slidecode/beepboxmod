@@ -236,6 +236,8 @@ export class Config {
 		{name: "A",  isWhiteKey:  true, basePitch: 21},
 		{name: "A♯", isWhiteKey: false, basePitch: 22},
 		{name: "B",  isWhiteKey:  true, basePitch: 23},
+		{name: "B#",  isWhiteKey:  true, basePitch: 24},
+		{name: "oh noes my ears",  isWhiteKey:  true, basePitch: 12000},
 	]);
 	public static readonly blackKeyNameParents: ReadonlyArray<number> = [-1, 1, -1, 1, -1, 1, -1, -1, 1, -1, 1, -1];
 	public static readonly tempoMin: number = 30;
@@ -255,7 +257,7 @@ export class Config {
 	public static readonly barCountMin: number = 1;
 	public static readonly barCountMax: number = 128;
 	public static readonly instrumentCountMin: number = 1;
-	public static readonly layeredInstrumentCountMax: number = 4;
+	public static readonly layeredInstrumentCountMax: number = 64;
 	public static readonly patternInstrumentCountMax: number = 10;
 	public static readonly partsPerBeat: number = 24;
 	public static readonly ticksPerPart: number = 2;
