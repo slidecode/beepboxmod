@@ -292,6 +292,8 @@ export class Config {
 		{name: "double saw",   expression: 0.5,  samples: centerWave([0.0, -0.2, -0.4, -0.6, -0.8, -1.0, 1.0, -0.8, -0.6, -0.4, -0.2, 1.0, 0.8, 0.6, 0.4, 0.2])},
 		{name: "double pulse", expression: 0.4,  samples: centerWave([1.0, 1.0, 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, -1.0])},
 		{name: "spiky",        expression: 0.4,  samples: centerWave([1.0, -1.0, 1.0, -1.0, 1.0, 0.0])},
+		{name: "spiky",        expression: 0.4,  samples: centerWave([40.0, -40.0, 20.0, -20.0, 20.0, 0.0])},
+		
 	]);
 	// Noise waves have too many samples to write by hand, they're generated on-demand by getDrumWave instead.
 	public static readonly chipNoises: DictionaryArray<ChipNoise> = toNameMap([
@@ -301,6 +303,7 @@ export class Config {
 		{name: "clang",   expression: 0.4,  basePitch: 69,  pitchFilterMult: 1024.0, isSoft: false, samples: null},
 		{name: "buzz",    expression: 0.3,  basePitch: 69,  pitchFilterMult: 1024.0, isSoft: false, samples: null},
 		{name: "hollow",  expression: 1.5,  basePitch: 96,  pitchFilterMult:    1.0, isSoft: true,  samples: null},
+		{name: "??",  expression: 1.0,  basePitch: 50,  pitchFilterMult:    1.0, isSoft: true,  samples: null},
 	]);
 	
 	public static readonly filterFreqStep: number = 1.0/4.0;
