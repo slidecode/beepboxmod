@@ -1,16 +1,13 @@
 /*!
 Copyright (C) 2021 John Nesky
-
 Permission is hereby granted, free of charge, to any person obtaining a copy of 
 this software and associated documentation files (the "Software"), to deal in 
 the Software without restriction, including without limitation the rights to 
 use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
 of the Software, and to permit persons to whom the Software is furnished to do 
 so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in all 
 copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
@@ -222,6 +219,7 @@ export class Config {
 		{name: "dbl harmonic :(", realName: "double harmonic minor", flags: [true, false,  true,  true, false, false,  true,  true,  true, false, false,  true]},
 		{name: "strange",         realName: "whole tone",            flags: [true, false,  true, false,  true, false,  true, false,  true, false,  true, false]},
 		{name: "expert",          realName: "chromatic",             flags: [true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]},
+		{name: "i can barely make a song out of this.",          realName: "chromatic",             flags: [false,  false,  false,  true,  false,  false,  false,  false,  false,  false,  false,  false]},
 	]);
 	public static readonly keys: DictionaryArray<Key> = toNameMap([
 		{name: "C",  isWhiteKey:  true, basePitch: 12}, // C0 has index 12 on the MIDI scale. C7 is 96, and C9 is 120. C10 is barely in the audible range.
@@ -236,10 +234,12 @@ export class Config {
 		{name: "A",  isWhiteKey:  true, basePitch: 21},
 		{name: "A♯", isWhiteKey: false, basePitch: 22},
 		{name: "B",  isWhiteKey:  true, basePitch: 23},
+		{name: "B#",  isWhiteKey:  false, basePitch: 24},
+		{name: "oh noes my ears",  isWhiteKey:  true, basePitch: 12000},
 	]);
 	public static readonly blackKeyNameParents: ReadonlyArray<number> = [-1, 1, -1, 1, -1, 1, -1, -1, 1, -1, 1, -1];
-	public static readonly tempoMin: number = 30;
-	public static readonly tempoMax: number = 300;
+	public static readonly tempoMin: number = 1;
+	public static readonly tempoMax: number = 800;
 	public static readonly echoDelayRange: number = 24;
 	public static readonly echoDelayStepTicks: number = 4;
 	public static readonly echoSustainRange: number = 8;
@@ -247,15 +247,15 @@ export class Config {
 	public static readonly echoShelfGain: number = Math.pow(2.0, -0.5);
 	public static readonly reverbShelfHz: number = 8000.0; // The cutoff freq of the shelf filter that is used to decay reverb.
 	public static readonly reverbShelfGain: number = Math.pow(2.0, -1.5);
-	public static readonly reverbRange: number = 4;
+	public static readonly reverbRange: number = 16;
 	public static readonly reverbDelayBufferSize: number = 16384; // TODO: Compute a buffer size based on sample rate.
 	public static readonly reverbDelayBufferMask: number = Config.reverbDelayBufferSize - 1; // TODO: Compute a buffer size based on sample rate.
-	public static readonly beatsPerBarMin: number = 3;
-	public static readonly beatsPerBarMax: number = 16;
+	public static readonly beatsPerBarMin: number = 1;
+	public static readonly beatsPerBarMax: number = 64;
 	public static readonly barCountMin: number = 1;
 	public static readonly barCountMax: number = 128;
 	public static readonly instrumentCountMin: number = 1;
-	public static readonly layeredInstrumentCountMax: number = 4;
+	public static readonly layeredInstrumentCountMax: number = 64;
 	public static readonly patternInstrumentCountMax: number = 10;
 	public static readonly partsPerBeat: number = 24;
 	public static readonly ticksPerPart: number = 2;
@@ -264,7 +264,8 @@ export class Config {
 		{name: "÷4 (standard)", stepsPerBeat: 4, ticksPerArpeggio: 3, arpeggioPatterns: [[0], [0, 0, 1, 1], [0, 1, 2, 1]], roundUpThresholds: [/*0*/ 3, /*6*/ 9, /*12*/ 17, /*18*/ 21 /*24*/]},
 		{name: "÷6",            stepsPerBeat: 6, ticksPerArpeggio: 4, arpeggioPatterns: [[0], [0, 1],       [0, 1, 2, 1]], roundUpThresholds: null},
 		{name: "÷8",            stepsPerBeat: 8, ticksPerArpeggio: 3, arpeggioPatterns: [[0], [0, 1],       [0, 1, 2, 1]], roundUpThresholds: null},
-		{name: "freehand",      stepsPerBeat:24, ticksPerArpeggio: 3, arpeggioPatterns: [[0], [0, 1],       [0, 1, 2, 1]], roundUpThresholds: null},
+		{name: "÷24",      stepsPerBeat:24, ticksPerArpeggio: 3, arpeggioPatterns: [[0], [0, 1],       [0, 1, 2, 1]], roundUpThresholds: null},
+		{name: "÷40",      stepsPerBeat:40, ticksPerArpeggio: 4, arpeggioPatterns: [[0], [0, 1],       [0, 1, 2, 1]], roundUpThresholds: null},
 	]);
 	
 	public static readonly instrumentTypeNames: ReadonlyArray<string> = ["chip", "FM", "noise", "spectrum", "drumset", "harmonics", "PWM", "Picked String"]; // See InstrumentType enum above.
@@ -290,6 +291,8 @@ export class Config {
 		{name: "double saw",   expression: 0.5,  samples: centerWave([0.0, -0.2, -0.4, -0.6, -0.8, -1.0, 1.0, -0.8, -0.6, -0.4, -0.2, 1.0, 0.8, 0.6, 0.4, 0.2])},
 		{name: "double pulse", expression: 0.4,  samples: centerWave([1.0, 1.0, 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, -1.0])},
 		{name: "spiky",        expression: 0.4,  samples: centerWave([1.0, -1.0, 1.0, -1.0, 1.0, 0.0])},
+		{name: "spiky on a step stool",        expression: 0.4,  samples: centerWave([40.0, -40.0, 20.0, -20.0, 20.0, 0.0])},
+		
 	]);
 	// Noise waves have too many samples to write by hand, they're generated on-demand by getDrumWave instead.
 	public static readonly chipNoises: DictionaryArray<ChipNoise> = toNameMap([
@@ -299,6 +302,8 @@ export class Config {
 		{name: "clang",   expression: 0.4,  basePitch: 69,  pitchFilterMult: 1024.0, isSoft: false, samples: null},
 		{name: "buzz",    expression: 0.3,  basePitch: 69,  pitchFilterMult: 1024.0, isSoft: false, samples: null},
 		{name: "hollow",  expression: 1.5,  basePitch: 96,  pitchFilterMult:    1.0, isSoft: true,  samples: null},
+		{name: "??",  expression: 1.0,  basePitch: 50,  pitchFilterMult:    1.0, isSoft: true,  samples: null},
+		{name: "ouchs",  expression: 250.0,  basePitch: 696969,  pitchFilterMult:    2048.0, isSoft: false,  samples: null},
 	]);
 	
 	public static readonly filterFreqStep: number = 1.0/4.0;
